@@ -1,0 +1,1673 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/grey_background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ExpenseActivity">
+
+    <TextView
+        android:id="@+id/id_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/classicroman"
+        android:text="Nuova Spesa: "
+        android:textSize="18sp"
+        android:textColor="@color/dark_grey"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/box_amount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:paddingVertical="10dp"
+        android:layout_marginHorizontal="10dp"
+        android:background="@drawable/square_round_corners"
+        app:layout_constraintTop_toBottomOf="@+id/id_title">
+
+        <EditText
+            android:id="@+id/edittext_expense_amount"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="@color/dark_grey"
+            android:textColorHint="@color/dark_grey"
+            android:focusedByDefault="true"
+            android:focusable="true"
+            android:inputType="numberDecimal"
+            android:textSize="30sp"
+            android:hint="0 €"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/square_round_corners"
+        android:paddingVertical="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/box_amount"
+        tools:layout_editor_absoluteX="10dp">
+
+        <EditText
+            android:id="@+id/edittext_expense_description"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="@color/dark_grey"
+            android:textColorHint="@color/dark_grey"
+            android:hint="descrizione spesa"
+            android:textSize="15sp" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/recycler_expenses"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/square_round_corners"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" >
+
+        <!--<ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="15">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_home_repair"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Stipendio"
+                            android:textColor="@color/dark_grey"
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home"
+                            app:layout_constraintStart_toStartOf="@+id/image_home"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_finance"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Finanza"
+                            android:textColor="@color/dark_grey"
+
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home1"
+                            app:layout_constraintStart_toStartOf="@+id/image_home1"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home1" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_income"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Entrata"
+                            android:textColor="@color/dark_grey"
+
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home2"
+                            app:layout_constraintStart_toStartOf="@+id/image_home2"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home2" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home3"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_savings"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Risparmi"
+                            android:textColor="@color/dark_grey"
+
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home3"
+                            app:layout_constraintStart_toStartOf="@+id/image_home3"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home3" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:weightSum="15">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home4"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home4"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_shopping"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Spesa"
+                            android:textColor="@color/dark_grey"
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home4"
+                            app:layout_constraintStart_toStartOf="@+id/image_home4"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home4" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home11"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home11"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_dining"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ristorante"
+                            android:textColor="@color/dark_grey"
+
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home11"
+                            app:layout_constraintStart_toStartOf="@+id/image_home11"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home11" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home21"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home21"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_food"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Delivery"
+                            android:textColor="@color/dark_grey"
+
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home21"
+                            app:layout_constraintStart_toStartOf="@+id/image_home21"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home21" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home31"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home31"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_drink"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Drink"
+                            android:textColor="@color/dark_grey"
+
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home31"
+                            app:layout_constraintStart_toStartOf="@+id/image_home31"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home31" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:weightSum="15">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home41"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home41"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_home"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Casa"
+                            android:textColor="@color/dark_grey"
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home41"
+                            app:layout_constraintStart_toStartOf="@+id/image_home41"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home41" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home111"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home111"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_electricity"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Bolletta"
+                            android:textColor="@color/dark_grey"
+
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home111"
+                            app:layout_constraintStart_toStartOf="@+id/image_home111"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home111" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home211"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home211"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_bank"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Mutuo"
+                            android:textColor="@color/dark_grey"
+
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home211"
+                            app:layout_constraintStart_toStartOf="@+id/image_home211"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home211" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home311"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home311"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_engineering"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Riparaz."
+                            android:textColor="@color/dark_grey"
+
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home311"
+                            app:layout_constraintStart_toStartOf="@+id/image_home311"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home311" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:weightSum="15">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home4111"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home4111"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_gas"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Benzina"
+                            android:textColor="@color/dark_grey"
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home4111"
+                            app:layout_constraintStart_toStartOf="@+id/image_home4111"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home4111" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home11111"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home11111"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_car"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Auto"
+                            android:textColor="@color/dark_grey"
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home11111"
+                            app:layout_constraintStart_toStartOf="@+id/image_home11111"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home11111" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home31111"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home31111"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_bike"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Moto"
+                            android:textColor="@color/dark_grey"
+
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home31111"
+                            app:layout_constraintStart_toStartOf="@+id/image_home31111"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home31111" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home21111"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home21111"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_parking"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Park"
+                            android:textColor="@color/dark_grey"
+
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home21111"
+                            app:layout_constraintStart_toStartOf="@+id/image_home21111"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home21111" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:weightSum="15">
+
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home2111"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home2111"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_public_transport"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Trasporti"
+                            android:textColor="@color/dark_grey"
+
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home2111"
+                            app:layout_constraintStart_toStartOf="@+id/image_home2111"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home2111" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home3111"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home3111"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_train"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Treno"
+                            android:textColor="@color/dark_grey"
+
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home3111"
+                            app:layout_constraintStart_toStartOf="@+id/image_home3111"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home3111" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home411"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home411"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_taxi"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Taxi"
+                            android:textColor="@color/dark_grey"
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home411"
+                            app:layout_constraintStart_toStartOf="@+id/image_home411"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home411" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home1111"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home1111"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_shipping"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Trasp."
+                            android:textColor="@color/dark_grey"
+
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home1111"
+                            app:layout_constraintStart_toStartOf="@+id/image_home1111"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home1111" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:weightSum="15">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home41111"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home41111"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_barber"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tosatura"
+                            android:textColor="@color/dark_grey"
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home41111"
+                            app:layout_constraintStart_toStartOf="@+id/image_home41111"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home41111" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home111111"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home111111"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_health"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Salute"
+                            android:textColor="@color/dark_grey"
+
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home111111"
+                            app:layout_constraintStart_toStartOf="@+id/image_home111111"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home111111" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home211111"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home211111"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_spa"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Benessere"
+                            android:textColor="@color/dark_grey"
+
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home211111"
+                            app:layout_constraintStart_toStartOf="@+id/image_home211111"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home211111" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home311111"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home311111"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="8dp"
+                            android:background="@color/transparent"
+                            android:src="@drawable/ic_children"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Bambini"
+                            android:textColor="@color/dark_grey"
+
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home311111"
+                            app:layout_constraintStart_toStartOf="@+id/image_home311111"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home311111" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:weightSum="15">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home411111"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home411111"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_cleaning_services"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pulizie"
+                            android:textColor="@color/dark_grey"
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home411111"
+                            app:layout_constraintStart_toStartOf="@+id/image_home411111"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home411111" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home1111111"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home1111111"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_clothes"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Vestiti"
+                            android:textColor="@color/dark_grey"
+
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home1111111"
+                            app:layout_constraintStart_toStartOf="@+id/image_home1111111"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home1111111" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home2111111"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home2111111"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="8dp"
+                            android:background="@color/transparent"
+                            android:src="@drawable/ic_crypto"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Crypto"
+                            android:textColor="@color/dark_grey"
+
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home2111111"
+                            app:layout_constraintStart_toStartOf="@+id/image_home2111111"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home2111111" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home3111111"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home3111111"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_laundry_service"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Lavanderia"
+                            android:textColor="@color/dark_grey"
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home3111111"
+                            app:layout_constraintStart_toStartOf="@+id/image_home3111111"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home3111111" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:weightSum="15">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home4111111"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home4111111"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_animals"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Home"
+                            android:textColor="@color/dark_grey"
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home4111111"
+                            app:layout_constraintStart_toStartOf="@+id/image_home4111111"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home4111111" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home11111111"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home11111111"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_gym"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Allenam"
+                            android:textColor="@color/dark_grey"
+
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home11111111"
+                            app:layout_constraintStart_toStartOf="@+id/image_home11111111"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home11111111" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home21111111"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home21111111"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_sanctions"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Multa"
+                            android:textColor="@color/dark_grey"
+
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home21111111"
+                            app:layout_constraintStart_toStartOf="@+id/image_home21111111"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home21111111" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home31111111"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home31111111"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_party"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Party"
+                            android:textColor="@color/dark_grey"
+
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home31111111"
+                            app:layout_constraintStart_toStartOf="@+id/image_home31111111"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home31111111" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:weightSum="15">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home41111111"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home41111111"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_music"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Musica"
+                            android:textColor="@color/dark_grey"
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home41111111"
+                            app:layout_constraintStart_toStartOf="@+id/image_home41111111"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home41111111" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home111111111"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home111111111"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_phone"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Telefono"
+                            android:textColor="@color/dark_grey"
+
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home111111111"
+                            app:layout_constraintStart_toStartOf="@+id/image_home111111111"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home111111111" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home211111111"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home211111111"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_subscriptions"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Abbonam"
+                            android:textColor="@color/dark_grey"
+
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home211111111"
+                            app:layout_constraintStart_toStartOf="@+id/image_home211111111"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home211111111" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home311111111"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home311111111"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_theaters"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Cinema"
+                            android:textColor="@color/dark_grey"
+
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home311111111"
+                            app:layout_constraintStart_toStartOf="@+id/image_home311111111"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home311111111" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:weightSum="15">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home411111111"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home411111111"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_tv"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="TV"
+                            android:textColor="@color/dark_grey"
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home411111111"
+                            app:layout_constraintStart_toStartOf="@+id/image_home411111111"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home411111111" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home1111111111"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home1111111111"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_incident"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Incidente"
+                            android:textColor="@color/dark_grey"
+
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home1111111111"
+                            app:layout_constraintStart_toStartOf="@+id/image_home1111111111"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home1111111111" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home2111111111"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home2111111111"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_golf"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sport"
+                            android:textColor="@color/dark_grey"
+
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home2111111111"
+                            app:layout_constraintStart_toStartOf="@+id/image_home2111111111"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home2111111111" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <Space
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cat_home3111111111"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/buttons_white"
+                        android:layout_weight="3">
+
+                        <ImageView
+                            android:id="@+id/image_home3111111111"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_holiday2"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Vacanza"
+                            android:textColor="@color/dark_grey"
+
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/image_home3111111111"
+                            app:layout_constraintStart_toStartOf="@+id/image_home3111111111"
+                            app:layout_constraintTop_toBottomOf="@+id/image_home3111111111" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+        </ScrollView>-->
+
+        <GridView
+            android:id="@+id/grid_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:horizontalSpacing="5dp"
+            android:numColumns="4"
+            android:verticalSpacing="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+        </GridView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:background="@drawable/square_round_corners"
+        android:text="Data"
+        android:textColor="@color/dark_grey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:background="@drawable/square_round_corners"
+        android:text="Ricorrente"
+        android:textColor="@color/dark_grey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button" />
+
+    <Button
+        android:id="@+id/button_save_today"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:background="@drawable/square_round_corners"
+        android:text="oggi"
+        android:textColor="@color/dark_grey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button2" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_background"
+    tools:context=".MainActivity">
+
+<!--    <ImageView
+        android:id="@+id/img_test"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/dark_grey"/>-->
+
+    <ImageButton
+        android:id="@+id/imageButtonCalendar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="5dp"
+        android:background="@color/transparent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_calendar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/button_month_before"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/buttons_white"
+        android:src="@drawable/ic_left"
+        app:layout_constraintBottom_toBottomOf="@+id/id_month"
+        app:layout_constraintEnd_toStartOf="@+id/id_month"
+        app:layout_constraintTop_toTopOf="@+id/id_month"
+        android:layout_marginEnd="15dp"/>
+
+    <TextView
+        android:id="@+id/id_month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/classicroman"
+        android:text="Gennaio 2023"
+        android:textColor="@color/dark_grey"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageButtonCalendar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageButtonCalendar" />
+
+    <ImageButton
+        android:id="@+id/button_month_after"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/buttons_white"
+        android:src="@drawable/ic_right"
+        android:layout_marginStart="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/id_month"
+        app:layout_constraintStart_toEndOf="@+id/id_month"
+        app:layout_constraintTop_toTopOf="@+id/id_month" />
+
+    <ImageButton
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="5dp"
+        android:background="@color/transparent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/pieChart"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_month">
+
+    </com.github.mikephil.charting.charts.PieChart>
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:orientation="vertical"
+        android:id="@+id/center_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/pieChart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/pieChart"
+        app:layout_constraintTop_toTopOf="@+id/pieChart">
+
+
+        <TextView
+            android:id="@+id/tv_incomes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/classicroman"
+            android:textColor="@color/dark_grey"
+            android:padding="10dp"
+            android:background="@drawable/buttons_green"
+            android:text="+ 1249 "
+            android:layout_marginBottom="10dp"
+            android:textSize="25sp"
+            app:layout_constraintTop_toBottomOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_expenses"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="@drawable/buttons_red"
+            android:padding="10dp"
+            android:fontFamily="@font/classicroman"
+            android:text="- 638 "
+            android:layout_gravity="center"
+            android:textColor="@color/dark_grey"
+            android:layout_marginBottom="20dp"
+            android:textSize="25sp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <ImageButton
+        android:id="@+id/button_add_income"
+        android:layout_width="@dimen/icon_dimesnions"
+        android:layout_height="@dimen/icon_dimesnions"
+        android:background="@drawable/buttons_green"
+        android:padding="5dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_money"
+        android:layout_marginBottom="25dp"
+        app:layout_constraintBottom_toBottomOf="@+id/pieChart"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:fontFamily="@font/classicroman"
+        android:text="Bilancio: + 611 €"
+        android:background="@drawable/buttons_blue"
+        android:padding="10dp"
+        android:textSize="25sp"
+        android:textColor="@color/dark_grey"
+        app:layout_constraintEnd_toStartOf="@+id/button_add_expenses"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toEndOf="@+id/button_add_income"
+        app:layout_constraintTop_toBottomOf="@+id/button_add_income" />
+
+    <ImageButton
+        android:id="@+id/button_add_expenses"
+        android:layout_width="@dimen/icon_dimesnions"
+        android:layout_height="@dimen/icon_dimesnions"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/buttons_red"
+        android:padding="5dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_payment"
+        app:layout_constraintBottom_toBottomOf="@+id/button_add_income"
+        app:layout_constraintEnd_toEndOf="@+id/pieChart"
+        app:layout_constraintTop_toTopOf="@+id/button_add_income" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_transactions"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginBottom="10dp"
+        android:padding="10dp"
+        android:background="@drawable/buttons_blue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_balance" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
