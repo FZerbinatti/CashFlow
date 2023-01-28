@@ -76,11 +76,11 @@
     <color name="sfum9">#bcd4e6</color>
     <color name="sfum10">#99c1de</color>
     <color name="sfum11">#d0d1ff</color>
-    <color name="sfum12">#ecbcfd</color>
+    <color name="sfum12">#905FB8FA</color>
 
-    <color name="purple_200">#9C27B0</color>
-    <color name="purple_500">#9C27B0</color>
-    <color name="purple_700">#7B1FA2</color>
+    <color name="purple_200">#905FB8FA</color>
+    <color name="purple_500">#905FB8FA</color>
+    <color name="purple_700">#905FB8FA</color>
     <color name="teal_200">#80CBC4</color>
     <color name="teal_700">#00796B</color>
 
