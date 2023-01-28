@@ -1,6 +1,8 @@
 package com.dreamsphere.cashflow.Models;
 
-public class Transaction {
+import java.io.Serializable;
+
+public class Transaction implements Serializable {
 
     Integer type;
     Float amount;

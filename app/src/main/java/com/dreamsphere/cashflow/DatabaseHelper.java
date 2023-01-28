@@ -16,7 +16,7 @@ import java.util.Calendar;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static String TAG = "DatabaseHelper ";
+    private static String TAG = "XYZ DatabaseHelper ";
 
     private static final String DB_NAME = "LocalDB";
     private static final int DB_VERSION = 1;
@@ -31,9 +31,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String AMOUNT = "AMOUNT";
     private static final String CATHEGORY = "CATHEGORY";
     private static final String DESCRIPTION = "DESCRIPTION";
-    private static final String YEAR = "YEAR";
-    private static final String MONTH = "MONTH";
     private static final String DAY = "DAY";
+    private static final String MONTH = "MONTH";
+    private static final String YEAR = "YEAR";
     private static final String MILLISECONDS = "MILLISECONDS";
 
 
@@ -86,25 +86,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
 
     }
-
-    public void updateIconUsages(String cathegory){
+*/
+    public void updateTransaction(Transaction transaction, String oldAmount, String oldMillis){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        Integer usages =0;
-        String selectQuery = "SELECT "+ USAGES +" FROM "+ TABLE_CATHEGORIES +" WHERE NAME = ? " ;
-        Cursor cursor = db.rawQuery(selectQuery, new String []{cathegory});
-        if (cursor.moveToFirst()) {
-            do {
-                usages = ( cursor.getInt(0)) ;
-                //Log.d(TAG, "getUserMorningReminderRegions: "+regions);
-            } while (cursor.moveToNext());
-        }
 
+        cv.put(TYPE, transaction.getType());
+        cv.put(AMOUNT, transaction.getAmount());
+        cv.put(CATHEGORY, transaction.getCathegory());
+        cv.put(DESCRIPTION, transaction.getDescription());
+        cv.put(DAY, transaction.getDay());
+        cv.put(MONTH, transaction.getMonth());
+        cv.put(YEAR, transaction.getYear());
+        cv.put(MILLISECONDS, transaction.getMilliseconds());
 
-        cv.put(USAGES, usages+1);
-        db.update(TABLE_CATHEGORIES,  cv, "NAME = ?", new String []{cathegory});
+        Log.d(TAG, "updateTransaction: "+transaction.getAmount() +" - " + transaction.getMilliseconds());
+        db.update(TABLE_TRANSACTIONS,  cv,  AMOUNT + "= ? AND "+ MILLISECONDS +"= ?", new String []{oldAmount, oldMillis});
         db.close();
-    }*/
+    }
 
     public void insertSpesa(Transaction transaction){
 
@@ -115,30 +114,50 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(AMOUNT, transaction.getAmount());
         cv.put(CATHEGORY, transaction.getCathegory());
         cv.put(DESCRIPTION, transaction.getDescription());
+        cv.put(DAY, transaction.getDay());
         cv.put(YEAR, transaction.getYear());
         cv.put(MONTH, transaction.getMonth());
-        cv.put(DAY, transaction.getDay());
         cv.put(MILLISECONDS, transaction.getMilliseconds());
 
 
         db.insert(TABLE_TRANSACTIONS, null, cv);
-        Log.d(TAG, "inserted Transaction");
+        Log.d(TAG, "inserted Transaction: millis: " +transaction.getMilliseconds());
         db.close();
 
     }
 
-    public ArrayList<Transaction> getFullMonthTransactions(){
+    public Transaction getSingleTransactions(Float amount, Long millis){
 
-        Integer currentMonth = Calendar.getInstance().get(Calendar.MONTH);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Transaction singleransactions = new Transaction();
+        //                                 0
+        String selectQuery = "SELECT "+ TYPE +","+AMOUNT +","+CATHEGORY +","+DESCRIPTION +","+DAY +","+MONTH +","+ YEAR+","+ MILLISECONDS +" FROM "+ TABLE_TRANSACTIONS +" WHERE "+ AMOUNT +" = ? AND "+ MILLISECONDS +"= ?" ;
+        Cursor cursor = db.rawQuery(selectQuery, new String []{ amount.toString(), millis.toString()});
+        if (cursor.moveToFirst()) {
+            do {
+                singleransactions =  new Transaction(cursor.getInt(0), cursor.getFloat(1), cursor.getString(2), cursor.getString(3), cursor.getInt(4), cursor.getInt(5), cursor.getInt(6), cursor.getLong(7)) ;
+            } while (cursor.moveToNext());
+        }else {
+            Log.d(TAG, "getMonthTransactions: NO RECORDS FOR THIS MONTH");
+        }
+        cursor.close();
+        db.close();
+        return singleransactions;
+
+    }
+
+    public ArrayList<Transaction> getMonthTransactions(Integer mese){
 
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<Transaction> monthTransactions = new ArrayList<>();
         //                                 0
-        String selectQuery = "SELECT "+ TYPE +","+AMOUNT +","+CATHEGORY +","+DESCRIPTION +","+DAY +","+MONTH +","+ YEAR+","+ MILLISECONDS +" FROM "+ TABLE_TRANSACTIONS +" WHERE "+ MONTH +" = ?" ;
-        Cursor cursor = db.rawQuery(selectQuery, new String []{ currentMonth.toString()});
+        String selectQuery = "SELECT "+ TYPE +","+AMOUNT +","+CATHEGORY +","+DESCRIPTION +","+DAY +","+MONTH +","+ YEAR+","+ MILLISECONDS +" FROM "+ TABLE_TRANSACTIONS +" WHERE "+ MONTH +" = ? ORDER BY DAY ASC" ;
+        Cursor cursor = db.rawQuery(selectQuery, new String []{ mese.toString()});
         if (cursor.moveToFirst()) {
             do {
                 monthTransactions.add( new Transaction(cursor.getInt(0), cursor.getFloat(1), cursor.getString(2), cursor.getString(3), cursor.getInt(4), cursor.getInt(5), cursor.getInt(6), cursor.getLong(7))) ;
+                Log.d(TAG, "getMonthTransactions: "+cursor.getInt(0) +" - "+cursor.getFloat(1)+" - " +cursor.getString(2)+" - "+cursor.getString(3)+" - "+cursor.getInt(4)+" - "+cursor.getInt(5)+" - "+cursor.getInt(6)+" - "+cursor.getLong(7));
             } while (cursor.moveToNext());
         }else {
             Log.d(TAG, "getMonthTransactions: NO RECORDS FOR THIS MONTH");
@@ -149,22 +168,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public ArrayList<Transaction> getMonthTransactions(Integer mese){
+    public ArrayList<Transaction> getPeriodTransactions(Long start_millis, Long end_millis){
+        Log.d(TAG, "getPeriodTransactions: start millis: "+start_millis);
+        Log.d(TAG, "getPeriodTransactions: end_millis millis: "+end_millis);
+
+
 
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<Transaction> monthTransactions = new ArrayList<>();
         //                                 0
-        String selectQuery = "SELECT "+ TYPE +","+AMOUNT +","+CATHEGORY +","+DESCRIPTION +","+DAY +","+MONTH +","+ YEAR+","+ MILLISECONDS +" FROM "+ TABLE_TRANSACTIONS +" WHERE "+ MONTH +" = ? ORDER BY MILLISECONDS DESC" ;
-        Cursor cursor = db.rawQuery(selectQuery, new String []{ mese.toString()});
+        String selectQuery = "SELECT "+ TYPE +","+AMOUNT +","+CATHEGORY +","+DESCRIPTION +","+DAY +","+MONTH +","+ YEAR+","+ MILLISECONDS +" FROM "+ TABLE_TRANSACTIONS +" WHERE "+ MILLISECONDS+" BETWEEN ? AND ? ORDER BY MILLISECONDS ASC" ;
+        Cursor cursor = db.rawQuery(selectQuery, new String []{ start_millis.toString() , end_millis.toString()});
         if (cursor.moveToFirst()) {
             do {
                 monthTransactions.add( new Transaction(cursor.getInt(0), cursor.getFloat(1), cursor.getString(2), cursor.getString(3), cursor.getInt(4), cursor.getInt(5), cursor.getInt(6), cursor.getLong(7))) ;
+                //Log.d(TAG, "getPeriodTransactions: " + cursor.getString(2) + " / " + cursor.getInt(7));
             } while (cursor.moveToNext());
         }else {
             Log.d(TAG, "getMonthTransactions: NO RECORDS FOR THIS MONTH");
         }
         cursor.close();
         db.close();
+        Log.d(TAG, "getPeriodTransactions: TOTAL TRANSACTIONS : " + monthTransactions.size());
         return monthTransactions;
 
     }
@@ -208,6 +233,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return monthTransactions;
+
+    }
+
+    public void removeEntry(Long milliseconds) {
+
+        Log.d(TAG, "remove entry: ");
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String whereClause = MILLISECONDS+"=?";
+        String[] whereArgs = new String[] { milliseconds.toString()};
+        db.delete(TABLE_TRANSACTIONS, whereClause, whereArgs);
 
     }
 

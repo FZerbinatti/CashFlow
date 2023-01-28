@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -27,8 +28,9 @@ public class Transactions_Adapter extends RecyclerView.Adapter <Transactions_Ada
     //RecyclerViewClickListener clickListener;
     Transaction thisTransactions;
     String imageTeamPath;
+    private AdapterView.OnItemClickListener onItemClickListener;
 
-    
+
 
 
 
@@ -38,6 +40,7 @@ public class Transactions_Adapter extends RecyclerView.Adapter <Transactions_Ada
     public Transactions_Adapter(Context context, List<Transaction> transactions) {
         this.context = context;
         this.transactionList = transactions;
+        this.onItemClickListener = onItemClickListener;
     }
 
     @NonNull
@@ -71,7 +74,7 @@ public class Transactions_Adapter extends RecyclerView.Adapter <Transactions_Ada
         thisTransactions.setYear(transactionList.get(i).getYear());
 
 
-        String date = transactionList.get(i).getDay().toString() + "/"+ transactionList.get(i).getMonth().toString()+1 + "/" +transactionList.get(i).getYear().toString()  ;
+        String date = String.format("%02d",transactionList.get(i).getDay()) + "/"+ String.format("%02d",transactionList.get(i).getMonth()+1) + "/" +transactionList.get(i).getYear().toString()  ;
 
 
         RequestOptions options = new RequestOptions()
@@ -233,7 +236,7 @@ public class Transactions_Adapter extends RecyclerView.Adapter <Transactions_Ada
         return transactionList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder  {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private ImageView icon_image;
         private TextView textview_item_date;
@@ -251,7 +254,13 @@ public class Transactions_Adapter extends RecyclerView.Adapter <Transactions_Ada
         }
 
 
+        @Override
+        public void onClick(View view) {
+            onItemClickListener.onItemClick(null, view, getAdapterPosition(), view.getId());
+        }
     }
+
+
 
 
 
