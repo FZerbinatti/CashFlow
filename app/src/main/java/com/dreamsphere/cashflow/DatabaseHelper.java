@@ -9,10 +9,10 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.dreamsphere.cashflow.Models.TotalCathegory;
 import com.dreamsphere.cashflow.Models.Transaction;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -147,13 +147,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public ArrayList<Transaction> getMonthTransactions(Integer mese){
+    public ArrayList<Transaction> getMonthTransactions(Integer mese, Integer year){
 
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<Transaction> monthTransactions = new ArrayList<>();
         //                                 0
-        String selectQuery = "SELECT "+ TYPE +","+AMOUNT +","+CATHEGORY +","+DESCRIPTION +","+DAY +","+MONTH +","+ YEAR+","+ MILLISECONDS +" FROM "+ TABLE_TRANSACTIONS +" WHERE "+ MONTH +" = ? ORDER BY DAY ASC" ;
-        Cursor cursor = db.rawQuery(selectQuery, new String []{ mese.toString()});
+        String selectQuery = "SELECT "+ TYPE +","+AMOUNT +","+CATHEGORY +","+DESCRIPTION +","+DAY +","+MONTH +","+ YEAR+","+ MILLISECONDS +" FROM "+ TABLE_TRANSACTIONS +" WHERE "+ MONTH +" = ? AND YEAR = ? ORDER BY DAY ASC" ;
+        Cursor cursor = db.rawQuery(selectQuery, new String []{ mese.toString(), year.toString()});
         if (cursor.moveToFirst()) {
             do {
                 monthTransactions.add( new Transaction(cursor.getInt(0), cursor.getFloat(1), cursor.getString(2), cursor.getString(3), cursor.getInt(4), cursor.getInt(5), cursor.getInt(6), cursor.getLong(7))) ;
@@ -167,6 +167,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return monthTransactions;
 
     }
+
+
+    public ArrayList<TotalCathegory> getAmountForCathegories(Integer year, Integer type){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<TotalCathegory> monthTransactions = new ArrayList<>();
+        //                                 0
+        String selectQuery = "SELECT "+CATHEGORY +", SUM ( "+AMOUNT +") FROM "+ TABLE_TRANSACTIONS +" WHERE YEAR = ? AND TYPE = ? GROUP BY CATHEGORY ORDER BY SUM ( "+AMOUNT +") ASC" ;
+        Cursor cursor = db.rawQuery(selectQuery, new String []{  year.toString(), type.toString()});
+        if (cursor.moveToFirst()) {
+            do {
+                monthTransactions.add( new TotalCathegory(cursor.getString(0), cursor.getFloat(1)));
+                Log.d(TAG, "getMonthTransactions: "+cursor.getString(0) +" - "+cursor.getFloat(1));
+            } while (cursor.moveToNext());
+        }else {
+            Log.d(TAG, "getAmountForCathegories: NO RECORDS FOR THIS MONTH");
+        }
+        cursor.close();
+        db.close();
+        return monthTransactions;
+
+    }
+
+
+
+
 
     public ArrayList<Transaction> getPeriodTransactions(Long start_millis, Long end_millis){
         Log.d(TAG, "getPeriodTransactions: start millis: "+start_millis);
@@ -190,6 +216,50 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         Log.d(TAG, "getPeriodTransactions: TOTAL TRANSACTIONS : " + monthTransactions.size());
+        return monthTransactions;
+
+    }
+
+    public Float getMonthSumOfTransactions(Integer mese, Integer anno, Integer type){
+
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Float monthTransactionsSum = null;
+        //                                 0
+        String selectQuery = "SELECT SUM ( "+AMOUNT +") FROM "+ TABLE_TRANSACTIONS +" WHERE "+ MONTH +" = ? AND YEAR = ? AND TYPE = ?"  ;
+        Cursor cursor = db.rawQuery(selectQuery, new String []{ mese.toString(), anno.toString(), type.toString()});
+        if (cursor.moveToFirst()) {
+            do {
+                monthTransactionsSum = (cursor.getFloat(0)) ;
+            } while (cursor.moveToNext());
+        }else {
+            Log.d(TAG, "ERROR FInding Transaction sum");
+
+        }
+        cursor.close();
+        db.close();
+
+        return monthTransactionsSum;
+
+    }
+
+    public ArrayList<Transaction> getMonthYearPositiveTransactions(Integer mese, Integer anno, Integer type){
+
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<Transaction> monthTransactions = new ArrayList<>();
+        //                                 0
+        String selectQuery = "SELECT "+ TYPE +","+AMOUNT +","+CATHEGORY +","+DESCRIPTION +","+DAY +","+MONTH +","+ YEAR+","+ MILLISECONDS +" FROM "+ TABLE_TRANSACTIONS +" WHERE "+ MONTH +" = ? AND YEAR = ? AND TYPE = ? ORDER BY MILLISECONDS DESC"  ;
+        Cursor cursor = db.rawQuery(selectQuery, new String []{ mese.toString(), anno.toString(), type.toString()});
+        if (cursor.moveToFirst()) {
+            do {
+                monthTransactions.add( new Transaction(cursor.getInt(0), cursor.getFloat(1), cursor.getString(2), cursor.getString(3), cursor.getInt(4), cursor.getInt(5), cursor.getInt(6), cursor.getLong(7))) ;
+            } while (cursor.moveToNext());
+        }else {
+            Log.d(TAG, "getMonthTransactions: NO RECORDS FOR THIS MONTH");
+        }
+        cursor.close();
+        db.close();
         return monthTransactions;
 
     }

@@ -14,7 +14,7 @@
             android:background="@color/dark_grey"/>-->
 
     <ImageButton
-        android:id="@+id/imageButtonCalendar"
+        android:id="@+id/imageButtonBack"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_margin="5dp"
@@ -31,22 +31,22 @@
         android:layout_marginEnd="15dp"
         android:background="@drawable/buttons_white"
         android:src="@drawable/ic_left"
-        app:layout_constraintBottom_toBottomOf="@+id/id_month"
-        app:layout_constraintEnd_toStartOf="@+id/id_month"
-        app:layout_constraintTop_toTopOf="@+id/id_month" />
+        app:layout_constraintBottom_toBottomOf="@+id/id_current_year"
+        app:layout_constraintEnd_toStartOf="@+id/id_current_year"
+        app:layout_constraintTop_toTopOf="@+id/id_current_year" />
 
     <TextView
-        android:id="@+id/id_month"
+        android:id="@+id/id_current_year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/timesnewroman"
         android:text="2023"
         android:textColor="@color/dark_grey"
         android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButtonCalendar"
+        app:layout_constraintBottom_toBottomOf="@+id/imageButtonBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageButtonCalendar" />
+        app:layout_constraintTop_toTopOf="@+id/imageButtonBack" />
 
     <ImageButton
         android:id="@+id/button_month_after"
@@ -55,22 +55,23 @@
         android:layout_marginStart="15dp"
         android:background="@drawable/buttons_white"
         android:src="@drawable/ic_right"
-        app:layout_constraintBottom_toBottomOf="@+id/id_month"
-        app:layout_constraintStart_toEndOf="@+id/id_month"
-        app:layout_constraintTop_toTopOf="@+id/id_month" />
+        app:layout_constraintBottom_toBottomOf="@+id/id_current_year"
+        app:layout_constraintStart_toEndOf="@+id/id_current_year"
+        app:layout_constraintTop_toTopOf="@+id/id_current_year" />
 
     <Button
         android:id="@+id/button_CombinedChart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
+        android:fontFamily="@font/times"
         android:background="@drawable/square_round_corners"
-        android:text="Graph1"
+        android:text="GRAFICO 1"
         android:textColor="@color/dark_grey"
         app:layout_constraintEnd_toStartOf="@+id/button_LineChart"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/id_month" />
+        app:layout_constraintTop_toBottomOf="@+id/id_current_year" />
 
     <Button
         android:id="@+id/button_LineChart"
@@ -78,12 +79,14 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:background="@drawable/square_round_corners"
-        android:text="Graph2"
+        android:text="Grafico 2"
+        android:fontFamily="@font/times"
+
         android:textColor="@color/dark_grey"
         app:layout_constraintEnd_toStartOf="@+id/button_LineChart2"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/button_CombinedChart"
-        app:layout_constraintTop_toBottomOf="@+id/id_month" />
+        app:layout_constraintTop_toBottomOf="@+id/id_current_year" />
 
     <Button
         android:id="@+id/button_LineChart2"
@@ -92,26 +95,58 @@
         android:layout_margin="15dp"
         android:background="@drawable/square_round_corners"
         android:text="Graph3"
+        android:fontFamily="@font/times"
+        android:visibility="gone"
         android:textColor="@color/dark_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/button_LineChart"
-        app:layout_constraintTop_toBottomOf="@+id/id_month" />
+        app:layout_constraintTop_toBottomOf="@+id/id_current_year" />
+
+    <TextView
+        android:id="@+id/id_total_exp_inc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/timesnewroman"
+        android:layout_marginTop="5dp"
+        android:text="Entrate: 25'000 Uscite: 5'800"
+        android:textColor="@color/dark_grey"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_LineChart" />
+
+
 
 
     <com.github.mikephil.charting.charts.CombinedChart
         android:id="@+id/combined_chart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="5dp"
         android:layout_marginBottom="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_LineChart">
+        app:layout_constraintTop_toBottomOf="@+id/id_total_exp_inc">
 
     </com.github.mikephil.charting.charts.CombinedChart>
+
+    <com.github.mikephil.charting.charts.HorizontalBarChart
+        android:id="@+id/horizontal_bar_chart"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_total_exp_inc">
+
+    </com.github.mikephil.charting.charts.HorizontalBarChart>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

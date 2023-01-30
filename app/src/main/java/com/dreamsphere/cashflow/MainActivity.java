@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     PieChart pieChart;
     RecyclerView recycler_transactions;
     Transactions_Adapter transactions_adapter;
-    Integer currentMonth;
+    Integer currentMonth, currentYear;
     DatabaseHelper databaseHelper;
     Calendar myCalendar;
     Long start_date;
@@ -83,14 +83,16 @@ public class MainActivity extends AppCompatActivity {
         button_month_before = findViewById(R.id.button_month_before);
 
         currentMonth = myCalendar.get(Calendar.MONTH);
+        currentYear = myCalendar.get(Calendar.YEAR);
+        Log.d(TAG, "onClick: current date: "+currentMonth+"/"+currentYear);
 
         //set del mese corrente in alto
         //String monthName=(String)android.text.format.DateFormat.format("MMMM", new Date());
         //id_month.setText(monthName + Calendar.getInstance().get(Calendar.YEAR));
 
-        id_month.setText(getMonthName(currentMonth));
+        id_month.setText(getMonthName(currentMonth)+currentYear);
 
-        currentMonthTransactions = mDatabaseHelper.getMonthTransactions(currentMonth);
+        currentMonthTransactions = mDatabaseHelper.getMonthTransactions(currentMonth, currentYear);
 
 
 
@@ -173,22 +175,55 @@ public class MainActivity extends AppCompatActivity {
         button_month_after.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                currentMonth++;
-                currentMonthTransactions = mDatabaseHelper.getMonthTransactions(currentMonth);
-                loadListView(currentMonthTransactions);
-                loadGraph(currentMonthTransactions);
-                id_month.setText(getMonthName(currentMonth));
+
+                if (currentMonth==11){
+                    currentMonth=0;
+                    currentYear++;
+                    Log.d(TAG, "onClick: current date: "+currentMonth+"/"+currentYear);
+                    currentMonthTransactions = mDatabaseHelper.getMonthTransactions(currentMonth, currentYear);
+                    loadListView(currentMonthTransactions);
+                    loadGraph(currentMonthTransactions);
+                    calcolateFieldsValues(currentMonthTransactions);
+                    id_month.setText(getMonthName(currentMonth)+currentYear);
+                }else {
+                    currentMonth++;
+
+                    Log.d(TAG, "onClick: current date: "+currentMonth+"/"+currentYear);
+                    currentMonthTransactions = mDatabaseHelper.getMonthTransactions(currentMonth, currentYear);
+                    loadListView(currentMonthTransactions);
+                    loadGraph(currentMonthTransactions);
+                    calcolateFieldsValues(currentMonthTransactions);
+                    id_month.setText(getMonthName(currentMonth)+currentYear);
+                }
+
+
             }
         });
 
         button_month_before.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                currentMonth--;
-                currentMonthTransactions = mDatabaseHelper.getMonthTransactions(currentMonth);
-                loadListView(currentMonthTransactions);
-                loadGraph(currentMonthTransactions);
-                id_month.setText(getMonthName(currentMonth));
+
+                if (currentMonth==0){
+                    currentMonth=11;
+                    currentYear--;
+                    Log.d(TAG, "onClick: current date: "+currentMonth+"/"+currentYear);
+                    currentMonthTransactions = mDatabaseHelper.getMonthTransactions(currentMonth, currentYear);
+                    loadListView(currentMonthTransactions);
+                    loadGraph(currentMonthTransactions);
+                    calcolateFieldsValues(currentMonthTransactions);
+                    id_month.setText(getMonthName(currentMonth)+currentYear);
+                }else {
+                    currentMonth--;
+                    Log.d(TAG, "onClick: current date: "+currentMonth+"/"+currentYear);
+                    currentMonthTransactions = mDatabaseHelper.getMonthTransactions(currentMonth, currentYear);
+                    loadListView(currentMonthTransactions);
+                    loadGraph(currentMonthTransactions);
+                    calcolateFieldsValues(currentMonthTransactions);
+                    id_month.setText(getMonthName(currentMonth)+currentYear);
+                }
+
+
             }
         });
 
@@ -402,15 +437,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public String getMonthName(Integer month){
+        /*Log.d(TAG, "getMonthName: month number: "+month);
 
         Calendar cal=Calendar.getInstance();
         SimpleDateFormat month_date = new SimpleDateFormat("MMMM");
 
         cal.set(Calendar.MONTH,month);
-        String month_name = month_date.format(cal.getTime()) + Calendar.getInstance().get(Calendar.YEAR);
+        String month_name = month_date.format(cal.getTime()) + currentYear;
+
+        Log.d(TAG, "getMonthName: month number: "+month +" == "+ month_name);
+        return month_name;*/
+
+        if (month==0){return "Gennaio";}
+        else if(month==1){return "Febbraio";}
+        else if(month==2){return "Marzo";}
+        else if(month==3){return "Aprile";}
+        else if(month==4){return "Maggio";}
+        else if(month==5){return "Giugno";}
+        else if(month==6){return "Luglio";}
+        else if(month==7){return "Agosto";}
+        else if(month==8){return "Settembre";}
+        else if(month==9){return "Ottobre";}
+        else if(month==10){return "Novembre";}
+        else if(month==11){return "Dicembre";}
+        else {return "Ronnaio";}
 
 
-        return month_name;
+
+
 
     }
 
