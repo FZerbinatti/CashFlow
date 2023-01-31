@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.dreamsphere.cashflow.Models.CategoryBarChartXaxisFormatter;
 import com.dreamsphere.cashflow.Models.TotalCathegory;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.CombinedChart;
@@ -23,11 +24,14 @@ import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Random;
 
 public class GraphsActivity extends AppCompatActivity {
@@ -35,7 +39,7 @@ public class GraphsActivity extends AppCompatActivity {
 
     Button button_CombinedChart, button_horizontal_chart, button_LineChart2;
 
-    HorizontalBarChart chart,horizontal_bar_chart;
+    HorizontalBarChart horizontal_chart,horizontal_bar_chart;
     private CombinedChart combined_chart_graph;
     private final int monthsNumber = 12;
     DatabaseHelper databaseHelper;
@@ -59,7 +63,7 @@ public class GraphsActivity extends AppCompatActivity {
 
         button_CombinedChart = findViewById(R.id.button_CombinedChart);
         combined_chart_graph = findViewById(R.id.combined_chart);
-        chart = findViewById(R.id.horizontal_bar_chart);
+        horizontal_chart = findViewById(R.id.horizontal_bar_chart);
 
         button_horizontal_chart = findViewById(R.id.button_LineChart);
         button_LineChart2 = findViewById(R.id.button_LineChart2);
@@ -91,7 +95,7 @@ public class GraphsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 combined_chart_graph.setVisibility(View.VISIBLE);
-                chart.setVisibility(View.GONE);
+                horizontal_chart.setVisibility(View.GONE);
                 setUpFirstGraph(currentYear);
             }
         });
@@ -106,46 +110,120 @@ public class GraphsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                ArrayList<TotalCathegory> expensesCathegories = databaseHelper.getAmountForCathegories(currentYear, -1);
+
                 combined_chart_graph.setVisibility(View.GONE);
-                chart.setVisibility(View.VISIBLE);
-                chart.getDescription().setEnabled(false);
-                chart.setMaxVisibleValueCount(60);
-                chart.setDrawGridBackground(false);
-                XAxis xl = chart.getXAxis();
-                chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
+
+                horizontal_chart.setVisibility(View.VISIBLE);
+
+/*                horizontal_chart.getDescription().setEnabled(false);
+                horizontal_chart.setMaxVisibleValueCount(60);
+                horizontal_chart.setDrawGridBackground(false);
+
+                horizontal_chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
+                XAxis xl = horizontal_chart.getXAxis();
                 xl.setPosition(XAxis.XAxisPosition.BOTTOM);
                 //xl.setTypeface(tfLight);
                 xl.setDrawAxisLine(true);
                 xl.setDrawGridLines(false);
-                xl.setGranularity(10f);
+                xl.setGranularity(100f);
+                xl.setAxisMinimum(0f);
+                //xl.setAxisMaximum(10);
 
-                YAxis yl = chart.getAxisLeft();
+                YAxis yl = horizontal_chart.getAxisLeft();
                 //yl.setTypeface(tfLight);
                 yl.setDrawAxisLine(true);
                 yl.setDrawGridLines(true);
                 yl.setAxisMinimum(0f); // this replaces setStartAtZero(true)
-                yl.setInverted(false);
+                //yl.setInverted(true);
 
-                YAxis yr = chart.getAxisRight();
+                YAxis yr = horizontal_chart.getAxisRight();
                 //yr.setTypeface(tfLight);
                 yr.setDrawAxisLine(true);
                 yr.setDrawGridLines(false);
                 yr.setAxisMinimum(0f); // this replaces setStartAtZero(true)
-//        yr.setInverted(true);
+                yr.setInverted(false);
 
-                chart.setFitBars(true);
-                chart.animateY(1500);
+                horizontal_chart.setFitBars(true);
+                horizontal_chart.animateY(1500);
 
 
-                Legend l = chart.getLegend();
+                Legend l = horizontal_chart.getLegend();
                 l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
                 l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
                 l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
                 l.setDrawInside(false);
                 l.setFormSize(8f);
-                l.setXEntrySpace(4f);
+                l.setXEntrySpace(4f);*/
+                ArrayList<String> labels2 = new ArrayList<>();
+                for(int i=0; i<expensesCathegories.size(); i++){
 
-                setData(databaseHelper.getAmountForCathegories(currentYear, -1));
+                    labels2.add(expensesCathegories.get(i).getNomeCategoria());
+
+                }
+
+
+
+
+                horizontal_chart.setDrawBarShadow(false);
+                horizontal_chart.setDrawValueAboveBar(true);
+                horizontal_chart.getDescription().setEnabled(false);
+                horizontal_chart.setPinchZoom(false);
+                horizontal_chart.setDrawGridBackground(false);
+
+
+                XAxis xl = horizontal_chart.getXAxis();
+                xl.setPosition(XAxis.XAxisPosition.BOTTOM);
+                xl.setDrawAxisLine(true);
+                xl.setDrawGridLines(false);
+                //CategoryBarChartXaxisFormatter xaxisFormatter = new CategoryBarChartXaxisFormatter(labels);
+                //xl.setValueFormatter(xaxisFormatter);
+                //xl.setGranularity(1);
+
+
+                xl.setValueFormatter(new IndexAxisValueFormatter(labels2));
+                xl.setGranularity(1f);
+                xl.setGranularityEnabled(true);
+                xl.setPosition(XAxis.XAxisPosition.TOP );
+
+                YAxis yl = horizontal_chart.getAxisLeft();
+                yl.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
+                yl.setDrawGridLines(false);
+                yl.setEnabled(false);
+                yl.setAxisMinimum(0f);
+
+                YAxis yr = horizontal_chart.getAxisRight();
+                yr.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
+                yr.setDrawGridLines(false);
+                yr.setAxisMinimum(0f);
+
+                ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
+                for (int i = 0; i < expensesCathegories.size(); i++) {
+                    yVals1.add(new BarEntry(i, expensesCathegories.get(i).getTotalAmount()));
+                }
+
+                BarDataSet set2;
+                set2 = new BarDataSet(yVals1, "DataSet 1");
+                set2.setColor(getColor(R.color.material_red));
+                set2.setBarBorderColor(getColor(R.color.material_red));
+                set2.setBarShadowColor(getColor(R.color.material_red));
+                set2.setValueTextColor(getColor(R.color.black));
+
+                //set1.setColor(R.color.material_red);
+                ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
+                dataSets.add(set2);
+                BarData data = new BarData(dataSets);
+                //data.setValueTextColor(R.color.material_red);
+
+                data.setValueTextSize(10f);
+
+                data.setBarWidth(.9f);
+                horizontal_chart.setData(data);
+
+                horizontal_chart.getLegend().setEnabled(false);
+
+
+                //setData(expensesCathegories);
 
             }
         });
@@ -168,13 +246,13 @@ public class GraphsActivity extends AppCompatActivity {
 
         BarDataSet set1;
         String[] labels = {" a","b ", "c"};
-        if (chart.getData() != null &&
-                chart.getData().getDataSetCount() > 0) {
-            set1 = (BarDataSet) chart.getData().getDataSetByIndex(0);
+        if (horizontal_chart.getData() != null &&
+                horizontal_chart.getData().getDataSetCount() > 0) {
+            set1 = (BarDataSet) horizontal_chart.getData().getDataSetByIndex(0);
             set1.setValues(values);
 
-            chart.getData().notifyDataChanged();
-            chart.notifyDataSetChanged();
+            horizontal_chart.getData().notifyDataChanged();
+            horizontal_chart.notifyDataSetChanged();
         } else {
             set1 = new BarDataSet(values, "Uscite");
 
@@ -191,7 +269,7 @@ public class GraphsActivity extends AppCompatActivity {
             data.setValueTextSize(10f);
             //data.setValueTypeface(tfLight);
             data.setBarWidth(barWidth);
-            chart.setData(data);
+            horizontal_chart.setData(data);
         }
 
 
