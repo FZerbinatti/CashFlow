@@ -59,7 +59,7 @@ public class ArrayListModel {
         arrayList.add(new Cathegories(R.drawable.ic_apple, "Spreco di $"));
         arrayList.add(new Cathegories(R.drawable.ic_gift, "Regalo"));
         arrayList.add(new Cathegories(R.drawable.ic_amazon, "Amazon"));
-        arrayList.add(new Cathegories(R.drawable.ic_crypto, "Cryptovalute"));
+        arrayList.add(new Cathegories(R.drawable.ic_crypto, "Criptovalute"));
         arrayList.add(new Cathegories(R.drawable.ic_technology, "Tecnologia"));
 
 

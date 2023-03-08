@@ -9,6 +9,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     Context context;
     DatabaseHelper mDatabaseHelper;
     ImageButton button_add_expense, button_add_income, button_month_after, button_month_before, imageButtonCalendar, ic_settings;
-    TextView id_month, tv_expenses, tv_incomes, tv_balance;
+    TextView id_month, tv_expenses, tv_incomes, tv_balance, id_total_balance;
     ArrayList<Transaction> currentMonthTransactions, currentExpenses, currentIncomes;
     PieChart pieChart;
     RecyclerView recycler_transactions;
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         databaseHelper = new DatabaseHelper(this);
         myCalendar = Calendar.getInstance();
         ic_settings = findViewById(R.id.ic_settings);
+        id_total_balance= findViewById(R.id.id_total_balance);
 
 
         tv_expenses = findViewById(R.id.tv_expenses);
@@ -103,6 +105,8 @@ public class MainActivity extends AppCompatActivity {
 
         //calcolateNumbers in the page
         calcolateFieldsValues(currentMonthTransactions);
+
+        id_total_balance.setText("Totale: "+databaseHelper.getBalance().toString());
 
 
         //tasto per aggiungere spesa
@@ -339,10 +343,14 @@ public class MainActivity extends AppCompatActivity {
         //pieDataSet.setValueTypeface(Typeface.createFromFile(String.valueOf(getDrawable(R.drawable.classicroman))));
 
         //pieDataSet.setColors((ColorTemplate.COLORFUL_COLORS));
-        //pieDataSet.setValueTextColor(Color.RED);
+        pieDataSet.setValueTextColor(Color.BLACK);
+
         pieDataSet.setValueTextSize(16f);
         PieData pieData = new PieData(pieDataSet);
+        pieData.setValueTextColor(Color.BLACK);
+
         pieChart.setData(pieData);
+
         pieChart.getDescription().setEnabled(false);
 
 
@@ -416,8 +424,15 @@ public class MainActivity extends AppCompatActivity {
                             }
                         });
                         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "ELIMINA", new DialogInterface.OnClickListener() {
+                            Long millis= 0L;
+
                             public void onClick(DialogInterface dialog, int which) {
-                                databaseHelper.removeEntry(transactions.get(position).getMilliseconds());
+                                for(int i=0; i<100; i++){
+                                    millis= transactions.get(position).getMilliseconds();
+                                    databaseHelper.removeEntry(millis);
+                                    millis+=2629800000L;
+                                }
+
                                 transactions.remove(position);
                                 Intent intent = new Intent(MainActivity.this, MainActivity.class);
                                 startActivity(intent);

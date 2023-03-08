@@ -243,6 +243,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public Float getBalance(){
+
+        Long currentMillis = System.currentTimeMillis();
+
+        //prendo i valori con tempo < now cosi non vengono considerati gli abbonamenti gia fissati futuri
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Float monthTransactionsSum = 0f;
+        //                                 0
+        String selectQuery = "SELECT   "+ TYPE +","+AMOUNT +" FROM "+ TABLE_TRANSACTIONS +" WHERE "+ MILLISECONDS +" < " + currentMillis  ;
+        Cursor cursor = db.rawQuery(selectQuery, new String []{ });
+        if (cursor.moveToFirst()) {
+            do {
+                Integer type = cursor.getInt(0);
+                if (type==1){
+                    monthTransactionsSum += (cursor.getFloat(1)) ;
+                }else if (type ==-1){
+                    monthTransactionsSum -= (cursor.getFloat(1)) ;
+                }
+
+            } while (cursor.moveToNext());
+        }else {
+            Log.d(TAG, "ERROR FInding Transaction sum");
+
+        }
+        cursor.close();
+        db.close();
+
+
+
+        return monthTransactionsSum;
+
+    }
+
+
+
     public ArrayList<Transaction> getMonthYearPositiveTransactions(Integer mese, Integer anno, Integer type){
 
 

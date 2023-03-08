@@ -30,7 +30,7 @@ import java.util.TimeZone;
 
 public class ExpenseActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    Button button_save_today, button_data;
+    Button button_save_today, button_data, button_ricorrente;
     EditText edittext_expense_amount, edittext_expense_description;
     DatabaseHelper databaseHelper;
     private static String TAG = "XYZ Transaction page ";
@@ -54,6 +54,8 @@ public class ExpenseActivity extends AppCompatActivity implements AdapterView.On
         edittext_expense_amount = findViewById(R.id.edittext_expense_amount);
         edittext_expense_description = findViewById(R.id.edittext_expense_description);
         button_data = findViewById(R.id.button_data);
+        button_ricorrente = findViewById(R.id.button_ricorrente);
+
         cathegory_selected ="";
         myCalendar = Calendar.getInstance();
         context = this;
@@ -88,6 +90,28 @@ public class ExpenseActivity extends AppCompatActivity implements AdapterView.On
         saveTodayExpenses();
 
         saveAtDate();
+
+        spesaRicorrente();
+
+    }
+
+    private void spesaRicorrente() {
+
+        button_ricorrente.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //passa i campi fatti all'activity sucessiva
+                Intent intent = new Intent(ExpenseActivity.this, SpesaRicorrente_Activity.class);
+                intent.putExtra("AMOUNT", edittext_expense_amount.getText().toString());
+                intent.putExtra("TYPE", extraTYpe);
+                intent.putExtra("DESCRIPTION", edittext_expense_description.getText().toString());
+                intent.putExtra("CATHEGORY", cathegory_selected);
+
+                startActivity(intent);
+
+            }
+        });
 
     }
 

@@ -48,6 +48,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageButtonCalendar" />
 
+    <TextView
+        android:id="@+id/id_total_balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/timesnewroman"
+        android:text="Totale: +1254"
+        android:textColor="@color/dark_grey"
+        android:textSize="12sp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageButtonCalendar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_month" />
+
     <ImageButton
         android:id="@+id/button_month_after"
         android:layout_width="wrap_content"
@@ -74,7 +88,7 @@
         android:id="@+id/pieChart"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
