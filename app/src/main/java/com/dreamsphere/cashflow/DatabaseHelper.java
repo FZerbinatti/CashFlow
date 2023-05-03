@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import androidx.annotation.LongDef;
 import androidx.annotation.Nullable;
 
 import com.dreamsphere.cashflow.Models.TotalCathegory;
@@ -258,8 +259,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 Integer type = cursor.getInt(0);
                 if (type==1){
+                    Log.d(TAG, "getBalance: adding "+cursor.getFloat(1) +" new balance: "+ monthTransactionsSum);
                     monthTransactionsSum += (cursor.getFloat(1)) ;
+
                 }else if (type ==-1){
+                    Log.d(TAG, "getBalance: minuss "+cursor.getFloat(1) +" new balance: "+ monthTransactionsSum);
                     monthTransactionsSum -= (cursor.getFloat(1)) ;
                 }
 

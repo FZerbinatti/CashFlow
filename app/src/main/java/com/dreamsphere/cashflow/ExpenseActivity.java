@@ -26,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.StringTokenizer;
 import java.util.TimeZone;
 
 public class ExpenseActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -40,8 +41,10 @@ public class ExpenseActivity extends AppCompatActivity implements AdapterView.On
     Context context;
     Calendar myCalendar;
     float oldAmount;
-    long oldMillis;
+    long oldMillis, dateMillis;
+    String transaction_date, extra_cathegory;
     Boolean modify;
+    Integer int_day, int_month, int_year;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,14 +67,20 @@ public class ExpenseActivity extends AppCompatActivity implements AdapterView.On
         Intent intent = getIntent();
         extraTYpe = intent.getIntExtra("TYPE",1);
         modify = intent.getBooleanExtra("MODIFY", false);
-
+        Log.d(TAG, "onCreate: extra: "+extraTYpe);
         if (modify){
-            Log.d(TAG, "onCreate: ELEMENTO IN MODIFICA");
+
             oldAmount = Float.parseFloat(intent.getStringExtra("AMOUNT"));
             oldMillis = Long.parseLong(intent.getStringExtra("MILLIS"));
+            transaction_date = millisToDate(oldMillis, "dd/MM/YYYY");
+            tokenizerThisDate(transaction_date);
+            button_save_today.setText(transaction_date);
+            button_save_today.setTextSize(12f);
+            Log.d(TAG, "onCreate: ELEMENTO IN MODIFICA: amount: " + oldAmount + " millis: " +oldMillis);
             Transaction singleTransaction = databaseHelper.getSingleTransactions(oldAmount, oldMillis);
             cathegory_selected = singleTransaction.getCathegory();
             id_title.setText("Modifica Spesa: "+ singleTransaction.getCathegory());
+            Log.d(TAG, "onCreate: AAAAAAAAAAAAAAAA "+singleTransaction.getCathegory());
             edittext_expense_description.setText(singleTransaction.getDescription());
             edittext_expense_amount.setText(String.valueOf(oldAmount));
         } else if (extraTYpe>0){
@@ -79,7 +88,7 @@ public class ExpenseActivity extends AppCompatActivity implements AdapterView.On
         }else {
             id_title.setText("Nuova Spesa: ");
         }
-        Log.d(TAG, "onCreate: extra: "+extraTYpe);
+
 
         GridView gridView = findViewById(R.id.grid_view);
         GridviewAdapter gridviewAdapter = new GridviewAdapter(ExpenseActivity.this, new ArrayListModel().setListData());
@@ -92,6 +101,19 @@ public class ExpenseActivity extends AppCompatActivity implements AdapterView.On
         saveAtDate();
 
         spesaRicorrente();
+
+    }
+
+    private void tokenizerThisDate(String transaction_date) {
+
+        String s = transaction_date;
+        StringTokenizer st = new StringTokenizer(s, "/");
+
+        int_day = Integer.valueOf(st.nextToken());
+        int_month = Integer.valueOf(st.nextToken());
+        int_year = Integer.valueOf(st.nextToken());
+
+        Log.d(TAG, "tokenizerThisDate: " + int_day + " - " + int_month + " - " + int_year);
 
     }
 
@@ -241,10 +263,10 @@ public class ExpenseActivity extends AppCompatActivity implements AdapterView.On
                                 Float.parseFloat(edittext_expense_amount.getText().toString()),
                                 cathegory_selected,
                                 edittext_expense_description.getText().toString(),
-                                Calendar.getInstance().get(Calendar.DAY_OF_MONTH),
-                                Calendar.getInstance().get(Calendar.MONTH),
-                                Calendar.getInstance().get(Calendar.YEAR),
-                                System.currentTimeMillis()
+                                int_day,
+                                int_month-1,
+                                int_year,
+                                oldMillis
                         ),String.valueOf(oldAmount),String.valueOf(oldMillis));
                     }else {
 
@@ -290,4 +312,16 @@ public class ExpenseActivity extends AppCompatActivity implements AdapterView.On
         }
 
     }
+
+    public static String millisToDate(long milliSeconds, String dateFormat) {
+        // Create a DateFormatter object for displaying date in specified format.
+        SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
+
+        // Create a calendar object that will convert the date and time value in milliseconds to date.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(milliSeconds);
+        return formatter.format(calendar.getTime());
+    }
+
+
 }

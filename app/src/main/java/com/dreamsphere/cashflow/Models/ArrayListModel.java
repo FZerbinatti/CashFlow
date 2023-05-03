@@ -37,6 +37,12 @@ public class ArrayListModel {
         arrayList.add(new Cathegories(R.drawable.ic_bank, "Mutuo"));
         arrayList.add(new Cathegories(R.drawable.ic_cleaning_services, "Pulizie"));
         arrayList.add(new Cathegories(R.drawable.ic_electricity, "Bolletta"));
+
+        arrayList.add(new Cathegories(R.drawable.ic_work, "Sp. Lavoro"));
+        arrayList.add(new Cathegories(R.drawable.ic_works, "Lavori"));
+        arrayList.add(new Cathegories(R.drawable.ic_tax, "Tasse"));
+        arrayList.add(new Cathegories(R.drawable.ic_software, "Software"));
+
         arrayList.add(new Cathegories(R.drawable.ic_engineering, "Riparazioni"));
         arrayList.add(new Cathegories(R.drawable.ic_phone, "Telefono"));
         arrayList.add(new Cathegories(R.drawable.ic_subscriptions, "Abbonamento"));

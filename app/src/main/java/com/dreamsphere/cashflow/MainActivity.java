@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
         currentMonth = myCalendar.get(Calendar.MONTH);
         currentYear = myCalendar.get(Calendar.YEAR);
-        Log.d(TAG, "onClick: current date: "+currentMonth+"/"+currentYear);
+        Log.d(TAG, "onClick: current period: "+currentMonth+"/"+currentYear);
 
         //set del mese corrente in alto
         //String monthName=(String)android.text.format.DateFormat.format("MMMM", new Date());
@@ -106,7 +106,10 @@ public class MainActivity extends AppCompatActivity {
         //calcolateNumbers in the page
         calcolateFieldsValues(currentMonthTransactions);
 
-        id_total_balance.setText("Totale: "+databaseHelper.getBalance().toString());
+        Float balance = databaseHelper.getBalance();
+        String balanceString = String.format("%.2f", balance);
+        id_total_balance.setText("Totale: "+balanceString);
+
 
 
         //tasto per aggiungere spesa
@@ -412,17 +415,6 @@ public class MainActivity extends AppCompatActivity {
                                         dialog.dismiss();
                                     }
                                 });*/
-                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "MODIFICA", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent(MainActivity.this, ExpenseActivity.class);
-                                intent.putExtra("MODIFY", true);
-                                intent.putExtra("TYPE", transactions.get(position).getType());
-                                intent.putExtra("AMOUNT", transactions.get(position).getAmount().toString());
-                                intent.putExtra("MILLIS", transactions.get(position).getMilliseconds().toString());
-                                startActivity(intent);
-                                dialog.dismiss();
-                            }
-                        });
                         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "ELIMINA", new DialogInterface.OnClickListener() {
                             Long millis= 0L;
 
@@ -440,6 +432,19 @@ public class MainActivity extends AppCompatActivity {
 
                             }
                         });
+
+                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "MODIFICA", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(MainActivity.this, ExpenseActivity.class);
+                                intent.putExtra("MODIFY", true);
+                                intent.putExtra("TYPE", transactions.get(position).getType());
+                                intent.putExtra("AMOUNT", transactions.get(position).getAmount().toString());
+                                intent.putExtra("MILLIS", transactions.get(position).getMilliseconds().toString());
+                                startActivity(intent);
+                                dialog.dismiss();
+                            }
+                        });
+
                         alertDialog.show();
 
                     }

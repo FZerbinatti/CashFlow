@@ -115,6 +115,21 @@ public class Transactions_Adapter extends RecyclerView.Adapter <Transactions_Ada
         else if (cathegory.equals("Bolletta")){
             Glide.with(context).load(R.drawable.ic_electricity).apply(options).transition(DrawableTransitionOptions.withCrossFade(500)).into(viewHolder.icon_image);
         }
+
+        else if (cathegory.equals("Sp. Lavoro")){
+            Glide.with(context).load(R.drawable.ic_work).apply(options).transition(DrawableTransitionOptions.withCrossFade(500)).into(viewHolder.icon_image);
+        }
+        else if (cathegory.equals("Lavori")){
+            Glide.with(context).load(R.drawable.ic_works).apply(options).transition(DrawableTransitionOptions.withCrossFade(500)).into(viewHolder.icon_image);
+        }
+        else if (cathegory.equals("Tasse")){
+            Glide.with(context).load(R.drawable.ic_tax).apply(options).transition(DrawableTransitionOptions.withCrossFade(500)).into(viewHolder.icon_image);
+        }
+        else if (cathegory.equals("Software")){
+            Glide.with(context).load(R.drawable.ic_software).apply(options).transition(DrawableTransitionOptions.withCrossFade(500)).into(viewHolder.icon_image);
+        }
+
+
         else if (cathegory.equals("Riparazioni")){
             Glide.with(context).load(R.drawable.ic_engineering).apply(options).transition(DrawableTransitionOptions.withCrossFade(500)).into(viewHolder.icon_image);
         }
